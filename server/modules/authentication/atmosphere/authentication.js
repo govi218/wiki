@@ -85,8 +85,11 @@ module.exports = {
             return done(new Error("Unable to authenticate user."), null);
           }
         } else {
+          WIKI.logger.info(JSON.stringify(conf));
           // Initial authentication request - redirect to the auth service
-          req.res.redirect(conf.authorizationURL);
+          req.res.redirect(
+            `${conf.authorizationURL}/auth/atproto?destination=${conf.callbackURL}`
+          );
           return done(null, false, {
             message: "Redirecting to authentication service..."
           });
